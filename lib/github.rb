@@ -11,10 +11,10 @@ module Github
   end
 
   def org
-    @org ||= client.organization(Rails.configuration.app.github_org)
+    @org ||= client.organization(Rails.configuration.x.github_org)
   end
 
   def client
-    @client ||= Octokit::Client.new(access_token: Rails.configuration.app.github_token)
+    @client ||= Octokit::Client.new(access_token: Rails.configuration.x.github_token)
   end
 end

@@ -18,8 +18,22 @@ test:
   pool: 5
   timeout: 5000
 
+# Environment for deploying to local VM's
+# that mirrors production
+vmlocal:
+  adapter: mysql2
+  user: droborg_vmlocal
+  password: X6a3M35rBw5juS
+  database: droborg
+  host: cimaster1-dev
+  pool: 5
+  timeout: 5000
+
 production:
   adapter: mysql2
+  user: droborg_production
+  password: <%= begin IO.read("/home/deploy/.droborg_db_pass") rescue "" end  %>
   database: droborg
+  host: cimaster1-ash
   pool: 5
   timeout: 5000

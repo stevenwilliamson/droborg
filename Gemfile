@@ -22,6 +22,7 @@ gem 'bootstrap-sass'
 # Pinned gems with native extensions
 gem 'json', '1.8.0'
 gem 'nokogiri', '1.6.3.1'
+gem 'kgio', '2.8.0'
 
 gem 'jbuilder'
 gem 'bcrypt-ruby'

@@ -19,9 +19,12 @@ gem 'jquery-rails'
 gem 'turbolinks'
 gem 'bootstrap-sass'
 
+# Pinned gems with native extensions
+gem 'json' '1.8.0'
+
 gem 'jbuilder'
 gem 'bcrypt-ruby'
-gem 'capistrano', group: :development
+gem 'capistrano', '~>2.14.0', group: :development
 
 gem 'foreman'
 gem 'unicorn'

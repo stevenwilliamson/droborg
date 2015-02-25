@@ -30,7 +30,7 @@ gem 'bcrypt-ruby'
 gem 'capistrano', '~>2.14.0', group: :development
 
 gem 'foreman'
-gem 'unicorn'
+gem 'unicorn', '4.6.3'
 gem 'delayed_job_active_record'
 
 group :development, :test do

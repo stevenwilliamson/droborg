@@ -240,7 +240,7 @@ GEM
     uglifier (2.7.0)
       execjs (>= 0.3.0)
       json (>= 1.8.0)
-    unicorn (4.8.3)
+    unicorn (4.6.3)
       kgio (~> 2.6)
       rack
       raindrops (~> 0.7)
@@ -282,4 +282,4 @@ DEPENDENCIES
   therubyracer
   turbolinks
   uglifier
-  unicorn
+  unicorn (= 4.6.3)

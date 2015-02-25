@@ -5,10 +5,10 @@ Droborg::Application.configure do
   load("/home/deploy/.droborg.rb") if File.exists?("/home/deploy/.droborg.rb")
 
   # App specific configuration
-  config.x.github_token = PuppetConfig::github_token
-  config.x.github_secret = PuppetConfig::github_secret
-  config.x.github_key = PuppetConfig::github_key
-  config.x.github_org = PuppetConfig::github_org
+  config.x.github_token = PuppetConfig::GITHUB_TOKEN
+  config.x.github_secret = PuppetConfig::GITHUB_SECRET
+  config.x.github_key = PuppetConfig::GITHUB_KEY
+  config.x.github_org = PuppetConfig::GITHUB_ORG
 
   # Code is not reloaded between requests.
   config.cache_classes = true

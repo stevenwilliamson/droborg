@@ -1,6 +1,15 @@
 Droborg::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
+  # Pull in config managed by puppet
+  load("/home/deploy/.droborg.rb") if File.exists?("/home/deploy/.droborg.rb")
+
+  # App specific configuration
+  config.app.github_token = PuppetConfig::github_token
+  config.app.github_secret = PuppetConfig::github_secret
+  config.app.github_key = PuppetConfig::github_key
+  config.app.github_org = PuppetConfig::github_org
+
   # Code is not reloaded between requests.
   config.cache_classes = true
 

@@ -23,6 +23,7 @@ gem 'bootstrap-sass'
 gem 'json', '1.8.0'
 gem 'nokogiri', '1.6.3.1'
 gem 'kgio', '2.8.0'
+gem 'raindrops', '0.11.0'
 
 gem 'jbuilder'
 gem 'bcrypt-ruby'

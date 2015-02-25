@@ -20,7 +20,7 @@ gem 'turbolinks'
 gem 'bootstrap-sass'
 
 # Pinned gems with native extensions
-gem 'json' '1.8.0'
+gem 'json', '1.8.0'
 
 gem 'jbuilder'
 gem 'bcrypt-ruby'

@@ -22,18 +22,18 @@ test:
 # that mirrors production
 vmlocal:
   adapter: mysql2
-  username: droborg_vmlocal
+  username: droborg
   password: X6a3M35rBw5juS
-  database: droborg
+  database: droborg_vmlocal
   host: cimaster1-dev
   pool: 5
   timeout: 5000
 
 production:
   adapter: mysql2
-  username: droborg_production
+  username: droborg
   password: <%= begin IO.read("/home/deploy/.droborg_db_pass") rescue "" end  %>
-  database: droborg
+  database: droborg_production
   host: cimaster1-ash
   pool: 5
   timeout: 5000

@@ -1,6 +1,15 @@
 Droborg::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
+  # Pull in config managed by puppet
+  load("/home/deploy/.droborg.rb") if File.exists?("/home/deploy/.droborg.rb")
+
+  # App specific configuration
+  config.x.github_token = PuppetConfig::GITHUB_TOKEN
+  config.x.github_secret = PuppetConfig::GITHUB_SECRET
+  config.x.github_key = PuppetConfig::GITHUB_KEY
+  config.x.github_org = PuppetConfig::GITHUB_ORG
+
   # Code is not reloaded between requests.
   config.cache_classes = true
 
@@ -27,7 +36,7 @@ Droborg::Application.configure do
   # config.assets.css_compressor = :sass
 
   # Do not fallback to assets pipeline if a precompiled asset is missed.
-  config.assets.compile = false
+  config.assets.compile = true
 
   # Generate digests for assets URLs.
   config.assets.digest = true
@@ -43,7 +52,7 @@ Droborg::Application.configure do
   # config.force_ssl = true
 
   # Set to :debug to see everything in the log.
-  config.log_level = :debug
+  config.log_level = :info
 
   # Prepend all log lines with the following tags.
   # config.log_tags = [ :subdomain, :uuid ]

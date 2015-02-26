@@ -53,6 +53,14 @@ task :vmlocal do
   server "192.168.224.188", :dorborg_jobserver
 end
 
+task :production do
+  set :cluster, "production"
+  set :rails_env, "production"
+
+  server "10.8.104.44", :droborg_web, :db
+  server "10.8.104.45", :droborg_jobserver
+end
+
 namespace :deploy do
   before 'cold',       'setup:check'
   before 'deploy',     'setup:check'

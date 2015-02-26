@@ -126,7 +126,7 @@ namespace :setup do
 
   task :restart_job_servers, :roles => [:droborg_jobserver], :on_no_matching_servers => :continue do
     run "god stop dj-droborg"
-    run "until god status dj-droborg | grep 'dj-droborg: unmonitored' ; do sleep 1 ; done"
+    run "until god status dj-droborg | grep 'delayed_job-0: unmonitored' ; do sleep 1 ; done"
     run "god start dj-droborg"
   end
 

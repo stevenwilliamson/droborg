@@ -13,7 +13,7 @@ set :user, "deploy"
 set :default_shell, '/bin/bash -l'
 set :bundle_cmd, 'bundle'
 
-set :repo, "git@github.com:afcapel/droborg.git"
+set :repo, "git@github.com:stevenwilliamson/droborg.git"
 set :github_repo, "afcapel/droborg.git"
 set :repository, "git@github.com:afcapel/droborg.git"
 set :scm, "git"
@@ -124,32 +124,26 @@ namespace :setup do
     run "god start #{god_service}"
   end
 
-  task :restart_job_servers, :roles => :droborg_job_server, :on_no_matching_servers => :continue do
+  task :restart_job_servers, :roles => [:droborg_jobserver], :on_no_matching_servers => :continue do
     run "god stop dj-droborg"
     run "until god status dj-droborg | grep 'dj-droborg: unmonitored' ; do sleep 1 ; done"
     run "god start dj-droborg"
   end
 
-  task :restart, :roles => :droborg_web, :max_hosts => 1 do
+  task :restart, :roles => [:droborg_web], :max_hosts => 1 do
 
     setup.restart_job_servers
 
-    find_servers(:except => {:rolling_restart => false}).each do |server|
+    # Remove server from lb
+    run "touch #{File.join(fetch(:app_root), 'shared/disable')}"
 
-      # Remove server from lb
-      run "touch #{File.join(fetch(:app_root), 'shared/disable')}", :hosts => server.host
+    # restart unicorn via god
+    run "god stop #{god_service}"
+    run "until god status #{god_service} | grep '#{god_service}: unmonitored' ; do sleep 1 ; done"
+    run "god start #{god_service}"
 
-      # restart unicorn via god
-      run "god stop #{god_service}", :hosts => server.host
-      run "until god status #{god_service} | grep '#{god_service}: unmonitored' ; do sleep 1 ; done", :hosts => server.host
-      run "god start #{god_service}", :hosts => server.host
-
-      # Check server is respnding to requests before moving on
-      #run "loop=120 ; echo \"Waiting for 200 OK from unicorn\" ; until `curl --output /dev/null --location --silent --fail --header 'Host: dev.freeagent.com' \"http://127.0.0.1:1080\"`; do printf \".\" ; sleep 1 ; let \"loop = ${loop} - 1\" ; if [ $loop -eq 0 ]; then echo \"Giving UP\" ; exit 1; fi ; done", :hosts => server.host
-
-      # Server responding to requests again add it back to the load balancer
-      run "rm #{File.join(fetch(:app_root), 'shared/disable')}", :hosts => server.host
-    end
+    # Server responding to requests again add it back to the load balancer
+    run "rm #{File.join(fetch(:app_root), 'shared/disable')}"
   end
 
   task :migrate, :roles => :db do

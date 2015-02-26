@@ -32,7 +32,7 @@ vmlocal:
 production:
   adapter: mysql2
   username: droborg
-  password: <%= begin IO.read("/home/deploy/.droborg_db_pass") rescue "" end  %>
+  password: X6a3M35rBw5juS
   database: droborg_production
   host: cimaster1-ash
   pool: 5

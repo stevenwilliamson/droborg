@@ -1,3 +1,5 @@
+require 'dotenv'
+
 Droborg::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
@@ -27,5 +29,11 @@ Droborg::Application.configure do
   # number of complex assets.
   config.assets.debug = true
   config.log_level = :debug
+
+  # App specific configuration
+  config.x.github_token = ENV['GITHUB_TOKEN']
+  config.x.github_secret = ENV['GITHUB_SECRET']
+  config.x.github_key = ENV['GITHUB_KEY']
+  config.x.github_org = ENV['GITHUB_ORG']
 
 end

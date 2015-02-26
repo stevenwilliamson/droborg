@@ -1,7 +1,7 @@
 class Project < ActiveRecord::Base
-  include GitRepo
+  include EnvParsing
 
-  has_many :tasks, dependent: :destroy
+  has_many :tasks, -> { order(:position) }, dependent: :destroy
   has_many :builds, dependent: :destroy
 
   def self.create_from_github_repo(repo_name)
@@ -13,12 +13,13 @@ class Project < ActiveRecord::Base
     )
   end
 
-  def repo_name
-    name.parameterize
+  def git_repo
+    @git_repo ||= GitRepo.new(git_url, name)
   end
+  alias_method :repo, :git_repo
 
-  def github?
-    git_url.start_with?('git@github.com:')
+  def github_url
+    @github_url ||= git_url.sub('git@github.com:', 'https://github.com/').sub(/\.git$/, '')
   end
 
   def last_build
@@ -26,25 +27,7 @@ class Project < ActiveRecord::Base
   end
 
   def setup
-    init_git_repo
+    git_repo.fetch
     update_attribute(:ready, true)
-  end
-  handle_asynchronously :setup
-
-  def env_hash
-    @env_hash ||= Hash.new.tap do |h|
-      next if env.blank?
-
-      env.lines.each do |line|
-        key, val = line.split('=')
-        h[key.strip] = val.strip if val.present?
-      end
-    end
-  end
-
-  def github_url
-    return nil unless github?
-
-    @github_url ||= git_url.sub('git@github.com:', 'https://github.com/').sub(/\.git$/, '')
   end
 end

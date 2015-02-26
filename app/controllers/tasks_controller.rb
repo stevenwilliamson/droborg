@@ -1,25 +1,37 @@
 class TasksController < ApplicationController
   before_filter :authorize
-  before_filter :load_task, only: [:show, :edit, :update]
+  before_filter :task, only: [:show, :edit]
 
   def new
     @task = project.tasks.build(name: "New Task")
   end
 
   def create
-    @task = project.tasks.create!(task_params)
+    task = project.tasks.create!(task_params)
     render "update"
   end
 
   def update
-    @project = @task.project
-    @task.update_attributes!(task_params)
+    project = task.project
+    task.update_attributes!(task_params)
+  end
+
+  def destroy
+    task.destroy
+  end
+
+  def move
+    if params[:move] == "up"
+      task.move_higher
+    else
+      task.move_lower
+    end
   end
 
   private
 
-  def load_task
-    @task = Task.find(params[:id])
+  def task
+    @task ||= project.tasks.find(params[:id])
   end
 
   def project
@@ -27,6 +39,6 @@ class TasksController < ApplicationController
   end
 
   def task_params
-    params.require(:task).permit(:name, :before, :command, :after_sucess, :after_failure)
+    params.require(:task).permit(:name, :command, :env)
   end
 end

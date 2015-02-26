@@ -7,7 +7,9 @@ class Job < ActiveRecord::Base
 
   attr_accessor :not_failed
 
-  scope :started, -> { where('started IS NOT NULL') }
+  scope :started,      -> { where("started IS NOT NULL") }
+  scope :not_finished, -> { where("finished IS NULL") }
+  scope :running,      -> { started.not_finished }
 
   def run
     self.not_failed = true
@@ -44,6 +46,13 @@ class Job < ActiveRecord::Base
     build.run_next
   end
 
+  def elapsed_time
+    return 0 unless started
+
+    up_to = finished || Time.now
+    up_to.to_i - started.to_i
+  end
+
   def pending?
     started.blank?
   end
@@ -69,6 +78,6 @@ class Job < ActiveRecord::Base
   end
 
   def env
-    build.env.merge({})
+    build.env.merge(task.env_hash)
   end
 end

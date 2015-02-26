@@ -3,6 +3,9 @@
 @import "bootstrap";
 @import "select2";
 
+$success-color: #dff0d8;
+$danger-color:   #f2dede;
+
 input#project_workers{
   max-width: 80px;
 }
@@ -18,6 +21,37 @@ input#project_workers{
 #latest-commits .pagination{
   @include clearfix;
   float: right;
+}
+
+.small-avatar{
+  max-height: 32px;
+  max-width: 32px;
+  margin: 0 5px;
+}
+
+#tasks{
+  .name, .command, .actions{
+    padding: 10px 0 0 20px;
+  }
+
+  tr.task{
+    height: 42px;
+  }
+
+  .arrows-cell{
+    max-width: 52px;
+    span {
+      color: #666;
+    }
+  }
+}
+
+.success{
+  background-color: $success-color;
+}
+
+.danger, .failed{
+  background-color: $danger-color;
 }
 
 .job_title{
